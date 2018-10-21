@@ -1,0 +1,81 @@
+version: "3"
+
+##### Creating Volumes #####
+volumes: 
+  volume_web:
+  volume_db:
+  volume_redis_1:
+
+##### Creating Networks #####
+networks: 
+  nginx-proxy:
+  internal:
+
+#### Creating Services ##### 
+services: 
+
+  ##### Proxy Service #####
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - nginx-proxy
+
+  ##### Web Service #####
+  web:
+    image: oprudkyi/laravel-bootstrap-adminlte-starter-kit
+    env_file: 
+     - env
+    environment: 
+      VIRTUAL_HOST: localhost.do
+    links:
+     - "db:mysql"
+     - "cache:rediscache"
+    volumes: 
+     - "volume_web:/var"
+
+     
+     # Volumes /etc/timezone & /etc/localtime
+     - /etc/timezone:/etc/timezone
+     - /etc/localtime:/etc/localtime
+    networks:
+     - nginx-proxy 
+     - internal
+    expose: 
+     - 22
+     - 80
+    restart: always
+    depends_on:
+       - db
+
+  ##### Database Service #####     
+  db:
+    image: percona
+    restart: always
+    ports:
+     - 3306:3306 
+    volumes:
+     - "volume_db:/var"
+    # Volumes ./data/mysql -> /var/lib/mysql 
+     - ./data/mysql:/var/lib/mysql
+    # Volumes /etc/timezone & /etc/localtime
+     - /etc/timezone:/etc/timezone
+     - /etc/localtime:/etc/localtime
+    env_file:
+     - env
+    networks: 
+     - internal
+    restart: always
+
+  ##### Redis Cache #####
+  cache:
+    image: redis
+    volumes:
+    - volume_redis_1:/var
+    networks: 
+     - internal
+    restart: always
