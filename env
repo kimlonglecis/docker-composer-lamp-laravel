@@ -1,0 +1,12 @@
+# TIMEDATE
+TZ=GMT+7
+
+HTML_ROOT=/var/www/html
+
+# MYSQL VARIABLE
+LINUX_USER=www-data
+MYSQL_HOST=db
+MYSQL_ROOT_PASSWORD=Brandcreative1
+MYSQL_USER=ktle-sql
+MYSQL_PASSWORD=Brandcreative1SQL
+MYSQL_DATABASE=laravel_main
