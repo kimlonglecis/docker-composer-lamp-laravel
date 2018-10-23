@@ -42,9 +42,6 @@ services:
      # Volume html -> /var/www/html
      - ./html:/var/www/html
 
-     # Volume Nginx default.conf -> /etc/nginx/sites-available/default.conf
-     - ./config/nginx/default.conf:/etc/nginx/sites-available/default.conf
-
      # Volumes /etc/timezone & /etc/localtime
      - /etc/timezone:/etc/timezone
      - /etc/localtime:/etc/localtime
