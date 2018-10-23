@@ -27,7 +27,8 @@ services:
 
   ##### Web Service #####
   web:
-    image: oprudkyi/laravel-bootstrap-adminlte-starter-kit
+    #image: wordpress:php7.2-fpm
+    image: richarvey/nginx-php-fpm:latest
     env_file: 
      - env
     environment: 
@@ -38,7 +39,12 @@ services:
     volumes: 
      - "volume_web:/var"
 
-     
+     # Volume html -> /var/www/html
+     - ./html:/var/www/html
+
+     # Volume Nginx default.conf -> /etc/nginx/sites-available/default.conf
+     - ./config/nginx/default.conf:/etc/nginx/sites-available/default.conf
+
      # Volumes /etc/timezone & /etc/localtime
      - /etc/timezone:/etc/timezone
      - /etc/localtime:/etc/localtime
