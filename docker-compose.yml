@@ -28,7 +28,7 @@ services:
   ##### Web Service #####
   web:
     #image: wordpress:php7.2-fpm
-    image: richarvey/nginx-php-fpm:latest
+    image: php:apache
     env_file: 
      - env
     environment: 
